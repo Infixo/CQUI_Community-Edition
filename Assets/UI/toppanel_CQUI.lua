@@ -9,13 +9,9 @@ BASE_CQUI_RefreshResources = RefreshResources;
 -- ===========================================================================
 local CQUI_showLuxury = true;
 
-function CQUI_OnSettingsInitialized()
-	CQUI_showLuxury = GameConfiguration.GetValue("CQUI_ShowLuxuries"); -- Infixo, issue #44
-end
-
 function CQUI_OnSettingsUpdate()
-	CQUI_showLuxury = GameConfiguration.GetValue("CQUI_ShowLuxuries");
-	RefreshResources();
+  CQUI_showLuxury = GameConfiguration.GetValue("CQUI_ShowLuxuries");
+  RefreshResources();
 end
 
 -- ===========================================================================
@@ -95,11 +91,15 @@ function OnToggleReportsScreen()
 end
 
 function LateInitialize()
-	BASE_CQUI_LateInitialize()
+  BASE_CQUI_LateInitialize()
 
-	LuaEvents.CQUI_SettingsInitialized.Add( CQUI_OnSettingsInitialized ); -- Infixo, issue #44
-	LuaEvents.CQUI_SettingsUpdate.Add(CQUI_OnSettingsUpdate);
-	if Controls.ViewReports then
-		Controls.ViewReports:SetHide(true); -- CQUI : hide the report button, moved to launchbar
-	end
+  
+  if Controls.ViewReports then
+    Controls.ViewReports:SetHide(true); -- CQUI : hide the report button, moved to launchbar
+  end
 end
+
+function Initialize()
+  LuaEvents.CQUI_SettingsUpdate.Add(CQUI_OnSettingsUpdate);
+end
+Initialize();
